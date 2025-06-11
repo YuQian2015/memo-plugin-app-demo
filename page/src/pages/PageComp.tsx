@@ -1,9 +1,7 @@
-// @ts-nocheck
-
 import axios from "axios";
 import { useEffect, useState, useMemo, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { TbLoader2, TbSearch, TbVolume, TbCards, TbChevronLeft, TbChevronRight, TbPlayerPlay, TbChevronDown, TbChevronUp, TbList, TbPlayerPause, TbRepeat, TbRepeatOnce, TbX } from "react-icons/tb";
+import { TbLoader2, TbSearch, TbVolume, TbChevronLeft, TbChevronRight, TbPlayerPlay, TbChevronDown, TbChevronUp, TbPlayerPause, TbRepeat, TbRepeatOnce, TbX } from "react-icons/tb";
 import { jsonrepair } from 'jsonrepair';
 
 import { Button } from "@/components/ui/button";
@@ -23,7 +21,6 @@ import { JsonOutputParser } from "@langchain/core/output_parsers";
 
 import manifest from "../../../main/manifest.json";
 import { convertToSeconds } from "@/lib/time";
-import { FlashcardMode } from "../components/FlashcardMode";
 
 interface PageCompProps {
   currentFile: any;
@@ -104,7 +101,6 @@ function PageComp({ currentFile }: PageCompProps) {
   const [searchWord, setSearchWord] = useState(""); // 单词搜索
   const [selectedWord, setSelectedWord] = useState<WordInfo | null>(null); // 选中的单词
   const [isLoadingPhonetic, setIsLoadingPhonetic] = useState(false); // 加载音标状态
-  const [isFlashcardMode, setIsFlashcardMode] = useState(false); // 卡片模式
   const scrollRef = useRef<HTMLDivElement>(null);
   const [currentExampleIndex, setCurrentExampleIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -550,12 +546,6 @@ ${aiResponse}
     }
   };
 
-  // 切换到卡片浏览模式
-  const enterFlashcardMode = () => {
-    setIsFlashcardMode(true);
-    setCurrentCardIndex(0);
-    setIsCardFlipped(false);
-  };
 
   // 重置例句索引
   useEffect(() => {
@@ -921,16 +911,7 @@ ${transcriptText}
           <div className="text-center text-muted-foreground py-8">
             {t("没有可用的字幕内容") || ""}
           </div>
-        ) : isFlashcardMode ? (
-          <FlashcardMode
-            words={filteredWords}
-            onExit={() => setIsFlashcardMode(false)}
-            onSelectWord={(word) => {
-              setSelectedWord(word);
-              setIsFlashcardMode(false);
-            }}
-          />
-        ) : (
+        ) :  (
           <div className="h-full grid grid-cols-3 gap-4 max-h-full overflow-hidden">
             {/* 单词列表区域 */}
             {isWordListExpanded && (
@@ -949,17 +930,6 @@ ${transcriptText}
                     <div className="text-xs text-muted-foreground">
                       {`共找到 ${filteredWords.length} 个单词${recommendedWords.length > 0 ? `，其中 ${filteredRecommendedWords.length} 个推荐词汇` : ''}`}
                     </div>
-                    {filteredWords.length > 0 && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="h-7 text-xs gap-1"
-                        onClick={enterFlashcardMode}
-                      >
-                        <TbCards className="h-3.5 w-3.5" />
-                        {t("卡片模式") || ""}
-                      </Button>
-                    )}
                   </div>
                 </div>
                 <ScrollArea className="flex-1 overflow-y-auto">

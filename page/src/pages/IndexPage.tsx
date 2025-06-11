@@ -1,6 +1,7 @@
-// @ts-nocheck
 import { useEffect, useState } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import PageComp from "./PageComp";
+import { Button } from "@/components/ui/button";
 
 export function modelToTranscriptFile(note: any) {
   return {
@@ -57,7 +58,7 @@ function IndexPage() {
     if (nId) {
       window.AIM.noteData('detail', { id: nId || undefined, workspaceId: wId || undefined, folderId: fId || undefined }).then(res => {
         console.log(res);
-        
+
         if (res) {
           setData(modelToTranscriptFile(res))
         }
@@ -68,7 +69,21 @@ function IndexPage() {
 
   return (
     <div className="h-full">
-      {data && <PageComp currentFile={data} />}
+      <ScrollArea className="h-full p-2">
+        <div className="py-2">基本信息</div>
+        <div className="space-y-2">
+          <div className="text-sm text-muted-foreground">当前转写ID：{nId}</div>
+          <div className="text-sm text-muted-foreground">当前文件夹ID：{fId}</div>
+          <div className="text-sm text-muted-foreground">当前空间ID：{wId}</div>
+        </div>
+
+        <div className="py-2">转写</div>
+        <Button>
+          获取转写内容
+        </Button>
+
+        {data && <PageComp currentFile={data} />}
+      </ScrollArea>
     </div>
   )
 }
