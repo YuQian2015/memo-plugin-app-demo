@@ -1,7 +1,10 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import PageComp from "./PageComp";
 import { Button } from "@/components/ui/button";
+
+import manifest from "../../../main/manifest.json";
+import type { ITranscriptFile } from "@aim-packages/iframe-ipc/dist/types";
 
 export function modelToTranscriptFile(note: any) {
   return {
@@ -47,23 +50,26 @@ export function transcriptFileToModel(transcriptFile: any) {
 }
 
 function IndexPage() {
-  const [data, setData] = useState<any>(null)
+  const [transcriptionData, setTranscriptionData] = useState<ITranscriptFile | null>(null)
   const queryParams = new URLSearchParams(window.location.search);
-  const nId = queryParams.get('noteId');
-  const fId = queryParams.get('folderId');
-  const wId = queryParams.get('workspaceId');
+  const nId = queryParams.get('noteId') || undefined;
+  const fId = queryParams.get('folderId') || undefined;
+  const wId = queryParams.get('workspaceId') || undefined;
 
-  console.log("noteId", nId, "folderId", fId, "workspaceId", wId);
-  useEffect(() => {
-    if (nId) {
-      window.AIM.noteData('detail', { id: nId || undefined, workspaceId: wId || undefined, folderId: fId || undefined }).then(res => {
-        console.log(res);
+  const getTranscriptionData = useCallback(() => {
+    console.log("!23123123");
 
-        if (res) {
-          setData(modelToTranscriptFile(res))
-        }
-      })
-    }
+    window.AIM.transcriptionData('detail', {
+      id: nId,
+      workspaceId: wId,
+      folderId: fId
+    }).then(res => {
+      console.log(res);
+
+      if (res) {
+        setTranscriptionData(modelToTranscriptFile(res))
+      }
+    })
   }, [nId, wId, fId])
 
 
@@ -75,14 +81,23 @@ function IndexPage() {
           <div className="text-sm text-muted-foreground">当前转写ID：{nId}</div>
           <div className="text-sm text-muted-foreground">当前文件夹ID：{fId}</div>
           <div className="text-sm text-muted-foreground">当前空间ID：{wId}</div>
+          <div className="text-sm text-muted-foreground">当前插件ID：{manifest.pluginId}</div>
         </div>
 
         <div className="py-2">转写</div>
-        <Button>
-          获取转写内容
+        <Button size={"sm"} variant={"outline"} onClick={getTranscriptionData}>
+          获取内容
         </Button>
+        {
+          transcriptionData && <ScrollArea className="text-sm text-muted-foreground h-40 whitespace-pre border rounded-md box-border my-2">
+            {JSON.stringify(transcriptionData, null, 2)}
+          </ScrollArea>
+        }
 
-        {data && <PageComp currentFile={data} />}
+        <div className="py-2">聊天</div>
+        <textarea className="w-full h-40 rounded-md box-border my-2 bg-background border outline-none"></textarea>
+
+        {transcriptionData && <PageComp currentFile={transcriptionData} />}
       </ScrollArea>
     </div>
   )

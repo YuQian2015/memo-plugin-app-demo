@@ -53,15 +53,6 @@ interface WordInfo {
 
 // type PolishStyle = "professional" | "casual" | "academic";
 
-// 添加高亮样式组件
-const HighlightedWord = ({ word, className = "" }: { word: string, className?: string }) => {
-  return (
-    <span className={`relative inline-block ${className}`}>
-      {word}
-      <span className="absolute bottom-[0.1em] left-0 right-0 h-[0.5em] bg-primary/60 -rotate-1" />
-    </span>
-  );
-};
 
 function generateUUID(): string {
   let d = performance.now();
@@ -1263,13 +1254,6 @@ ${transcriptText}
                                                     [{timestamp.startTime} - {timestamp.endTime}]
                                                   </div>
                                                 )}
-                                                {timestamp.text.split(/\b/).map((part, i) =>
-                                                  part.toLowerCase() === selectedWord.word.toLowerCase() ? (
-                                                    <HighlightedWord key={i} word={part} />
-                                                  ) : (
-                                                    part
-                                                  )
-                                                )}
                                               </div>
                                             </div>
                                           ))}
@@ -1282,13 +1266,6 @@ ${transcriptText}
                               <div className="space-y-2">
                                 {selectedWord.examples.map((example, index) => (
                                   <div key={index} className="p-3 bg-muted rounded-md">
-                                    {example.en?.split(/\b/).map((part, i) =>
-                                      part.toLowerCase() === selectedWord.word.toLowerCase() ? (
-                                        <HighlightedWord key={i} word={part} />
-                                      ) : (
-                                        part
-                                      )
-                                    )}
                                     <span className="text-muted-foreground text-xs">({example.zh})</span>
                                   </div>
                                 ))}

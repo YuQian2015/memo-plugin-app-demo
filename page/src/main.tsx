@@ -10,7 +10,7 @@ if (!window.AIM) {
   window.AIM = new Bridge({
     methods: [
       "copyText",
-      "noteData",
+      "transcriptionData",
       "chat.getProviders",
       "chat.getModels",
       "chat.chat",
