@@ -14,15 +14,6 @@ body {
   height: 100%;
 }
 
-
-#titleBar {
-  -webkit-app-region: drag;
-
-  button {
-    -webkit-app-region: no-drag;
-  }
-}
-
 .pages {
-  height: calc(100% - 36px);
+  height: 100%;
 }
