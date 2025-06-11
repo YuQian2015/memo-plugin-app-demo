@@ -1,0 +1,28 @@
+html,
+body {
+  border-radius: 8px;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+#root,
+.App {
+  height: 100%;
+}
+
+
+#titleBar {
+  -webkit-app-region: drag;
+
+  button {
+    -webkit-app-region: no-drag;
+  }
+}
+
+.pages {
+  height: calc(100% - 36px);
+}

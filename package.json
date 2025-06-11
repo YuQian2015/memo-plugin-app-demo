@@ -1,0 +1,19 @@
+{
+  "name": "@memo-plugins-app/demo",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "pnpm build:main && pnpm build:page",
+    "build:main": "rimraf ./dist && tsup && copyfiles -e main/**/*tsconfig.json -u 1 main/**/*.json main/**/*.svg main/**/i18n.json main/**/*.png dist",
+    "build:page": "cd page && pnpm install && pnpm build"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.5",
+    "copyfiles": "^2.4.1",
+    "tsup": "^8.0.1"
+  },
+  "dependencies": {
+    "typescript": "^5.1.3"
+  }
+}

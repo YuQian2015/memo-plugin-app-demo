@@ -1,0 +1,35 @@
+{
+  "$schema": "../../../../core/schemas/manifest.schema.json",
+  "manifestVersion": "1",
+  "version": "1.0.1",
+  "version_name": "beta",
+  "title": "Memo Demo App",
+  "description": "",
+  "type": "app",
+  "pluginId": "memo-plugin-app-demo",
+  "category": "",
+  "platforms": [
+    "win32",
+    "darwin"
+  ],
+  "arch": [
+    "arm64",
+    "x64"
+  ],
+  "link": "",
+  "author": "Memo Team",
+  "homepage": "",
+  "source": "",
+  "importType": "module",
+  "provider": {
+    "value": "Memo Demo App",
+    "label": "Memo Demo App"
+  },
+  "configuration": [],
+  "defaultsConfiguration": {},
+  "configurationExposed": [],
+  "ttsInput": [],
+  "storageKey": "",
+  "configurationStorage": [],
+  "configurationRequired": []
+}

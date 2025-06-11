@@ -1,0 +1,148 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 233 16% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --border: 204 22% 91%;
+    --input: 214.3 31.8% 91.4%;
+
+    --primary: 238 50% 56%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 238 50% 56%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 238 50% 56%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 204 22% 91%;
+
+    --radius: 0.5rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: 233 16% 11%;
+      --foreground: 210 40% 98%;
+
+      --muted: 235 14% 18%;
+      --muted-foreground: 215 20.2% 65.1%;
+
+      --popover: 233 16% 11%;
+      --popover-foreground: 210 40% 98%;
+
+      --card: 222.2 84% 4.9%;
+      --card-foreground: 210 40% 98%;
+
+      --border: 233 13% 25%;
+      --input: 233 13% 25%;
+
+      --primary: 238 50% 56%;
+      --primary-foreground: 210 40% 98%;
+
+      --secondary: 217.2 32.6% 17.5%;
+      --secondary-foreground: 210 40% 98%;
+
+      --accent: 217.2 32.6% 17.5%;
+      --accent-foreground: 210 40% 98%;
+
+      --destructive: 0 62.8% 30.6%;
+      --destructive-foreground: 0 85.7% 97.3%;
+
+      --ring: 233 13% 25%;
+    }
+  }
+}
+
+:root {
+  --color-brand-color: #575bc7; // 品牌色、链接色、功能色
+
+  --color-bg-content: hsl(206, 37%, 96%); // 只做背景使用
+  --color-bg-element: #ffffff; // 只做元素背景
+  --color-bg-watermark: #999999; // 水印
+
+  --color-line: hsl(204, 22%, 91%); // 线条颜色
+
+  --color-text-primary: #323232; // 主文案文字颜色
+  --color-text-primary-s: #525866; // 副标题/正文摘要
+  --color-text-description: #87939d; // 辅助性描述文案
+  --color-text-description-s: #afb8bf; // 次要辅助性描述文案/时间
+  --color-text-disable: #d7dbdf; // 预填/禁用文本
+  --color-text-in-brand: #ffffff; // 在主题色里面的文字
+
+  --color-status-link: #01a0ff; // 链接色
+  --color-status-activity: #f29416; // 积极/活动奖励/得分
+  --color-status-danger: #ed4622; // 红点/错误/警告
+
+  --line-width: 1px;
+
+  --border-radius-small: 4px;
+  --border-radius: 8px;
+  --border-radius-normal: 8px;
+  --border-radius-large: 16px;
+
+  --margin-small: 4px;
+  --margin-normal: 8px;
+  --margin-large: 16px;
+
+  --padding-small: 4px;
+  --padding-normal: 8px;
+  --padding-large: 16px;
+
+  --box-shadow-normal: 0px 0px 4px rgba(0, 0, 0, 0.1);
+  --box-shadow-large: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  --box-shadow-brand: 0px 4px 8px var(--color-brand-color);
+
+  --transition-all: all 160ms linear;
+
+  --plyr-color-main: var(--color-brand-color);
+  --plyr-audio-controls-background: var(--color-bg-element);
+  --plyr-audio-control-color: var(--color-text-primary-s);
+  --plyr-audio-progress-buffered-background: var(--color-line);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-content: hsl(233, 16%, 11%);
+    --color-bg-element: hsl(235, 14%, 18%);
+    --color-bg-watermark: #999999;
+
+    --color-line: hsl(233, 13%, 25%);
+
+    --color-text-primary: #dfdfdf;
+    --color-text-primary-s: rgb(181, 181, 181);
+    --color-text-description: #87939d;
+    --color-text-description-s: #afb8bf;
+    --color-text-disable: #d7dbdf;
+    --color-text-in-brand: #ffffff;
+
+    --box-shadow-normal: 0px 0px 4px rgba(0, 0, 0, 1);
+    --box-shadow-large: 0px 4px 8px rgba(0, 0, 0, 1);
+    --box-shadow-brand: 0px 4px 8px #003688;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
