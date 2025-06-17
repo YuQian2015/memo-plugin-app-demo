@@ -31,5 +31,14 @@
   "ttsInput": [],
   "storageKey": "",
   "configurationStorage": [],
-  "configurationRequired": []
+  "configurationRequired": [],
+  "apis": [
+    "copyText",
+    "transcriptionData",
+    "chat.getProviders",
+    "chat.getModels",
+    "chat.chat",
+    "closeWindow",
+    "file.saveFile"
+  ]
 }

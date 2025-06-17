@@ -228,12 +228,12 @@ function IndexPage() {
           <Button size={"sm"} onClick={() => {
             window.AIM.storage.setItem("data", {
               text: generatedText || "test"
-            }, manifest.pluginId).then((res: any) => {
+            }).then((res: any) => {
               alert("保存成功")
             })
           }}>保存数据</Button>
           <Button size={"sm"} onClick={() => {
-            window.AIM.storage.getItem("data", manifest.pluginId).then((res: any) => {
+            window.AIM.storage.getItem("data").then((res: any) => {
               alert(res.text)
             })
           }}>获取数据</Button>

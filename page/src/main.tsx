@@ -8,19 +8,7 @@ import manifest from "../../main/manifest.json";
 if (!window.AIM) {
   // @ts-ignore
   window.AIM = new Bridge({
-    methods: [
-      "copyText",
-      "transcriptionData",
-      "chat.getProviders",
-      "chat.getModels",
-      "chat.chat",
-      "storage.removeItem",
-      "storage.setItem",
-      "storage.getItem",
-      "storage.clear",
-      "closeWindow",
-      "file.saveFile",
-    ],
+    methods: manifest.apis,
     appId: manifest.pluginId,
   }) || {}
 }
