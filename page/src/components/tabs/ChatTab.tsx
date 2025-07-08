@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { ModelSelector } from "@/components/ModelSelector";
+import { v4 as uuidv4 } from 'uuid';
 
 interface ModelData {
   value: string;
@@ -20,6 +21,7 @@ export function ChatTab() {
   const [generatedText, setGeneratedText] = useState<string>("");
   const [model, setModel] = useState("");
   const [prompt, setPrompt] = useState("");
+  const [currentUuid, setCurrentUuid] = useState<string>("");
 
   // 从本地存储恢复模型设置
   useEffect(() => {
@@ -40,17 +42,20 @@ export function ChatTab() {
   useEffect(() => {
     // @ts-ignore
     function handleConvertProgress(e: any, data: any) {
-      if (data.type === "llm:chat:stream:start") {
-        setGeneratedText(data.data.text);
-      }
-      if (data.type === "llm:chat:stream:message") {
-        setGeneratedText((prev: string) => {
-          const accumulatedData = prev + data.data.text
-          return accumulatedData
-        });
-      }
-      if (data.type === "llm:chat:stream:completed") {
-        setGeneratedText(data.data.text);
+      // 只有当返回的uuid与当前聊天的uuid匹配时才处理
+      if (data.data.uuid === currentUuid) {
+        if (data.type === "llm:chat:stream:start") {
+          setGeneratedText(data.data.text);
+        }
+        if (data.type === "llm:chat:stream:message") {
+          setGeneratedText((prev: string) => {
+            const accumulatedData = prev + data.data.text
+            return accumulatedData
+          });
+        }
+        if (data.type === "llm:chat:stream:completed") {
+          setGeneratedText(data.data.text);
+        }
       }
     }
     window.AIM.handleMessage(handleConvertProgress, "AppPlugins");
@@ -58,7 +63,7 @@ export function ChatTab() {
     return () => {
       window.AIM.removeHandler("AppPlugins");
     };
-  }, [setGeneratedText]);
+  }, [currentUuid]);
 
   // 处理模型选择确认
   const handleConfirmModel = useCallback(async (selectedModelData: ModelData) => {
@@ -72,6 +77,23 @@ export function ChatTab() {
       model: newModel
     });
   }, []);
+
+  // 发送聊天消息
+  const handleSendChat = () => {
+    const uuid = uuidv4();
+    setCurrentUuid(uuid);
+    setGeneratedText(""); // 清空之前的回复
+    
+    window.AIM.chat.chat({
+      model,
+      provider,
+      messages: [{
+        role: "user",
+        content: prompt
+      }],
+      uuid: uuid
+    });
+  };
 
   return (
     <div className="space-y-4">
@@ -95,16 +117,7 @@ export function ChatTab() {
         />
       </div>
 
-      <Button size={"sm"} onClick={() => {
-        window.AIM.chat.chat({
-          model,
-          provider,
-          messages: [{
-            role: "user",
-            content: prompt
-          }]
-        });
-      }}>
+      <Button size={"sm"} onClick={handleSendChat}>
         发送聊天内容
       </Button>
 

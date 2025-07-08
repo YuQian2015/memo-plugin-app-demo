@@ -41,7 +41,8 @@
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.6",
     "tippy.js": "^6.3.7",
-    "turndown": "^7.1.2"
+    "turndown": "^7.1.2",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.8",
