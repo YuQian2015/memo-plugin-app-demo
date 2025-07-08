@@ -21,12 +21,12 @@ interface ModelData {
   providerLabel: string;
 }
 
-interface ModelGuideProps {
+interface ModelSelectorProps {
   model: string;
   onModelChange: (selectedModel: ModelData) => void;
 }
 
-export const ModelGuide: React.FC<ModelGuideProps> = ({
+export const ModelSelector: React.FC<ModelSelectorProps> = ({
   model,
   onModelChange,
 }) => {

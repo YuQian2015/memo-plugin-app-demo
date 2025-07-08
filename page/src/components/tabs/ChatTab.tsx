@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { ModelGuide } from "@/components/ModelGuide";
+import { ModelSelector } from "@/components/ModelSelector";
 
 interface ModelData {
   value: string;
@@ -77,7 +77,7 @@ export function ChatTab() {
     <div className="space-y-4">
       <div className="space-y-2">
         <div className="text-sm text-muted-foreground">AI模型</div>
-        <ModelGuide
+        <ModelSelector
           model={model}
           onModelChange={handleConfirmModel}
         />
