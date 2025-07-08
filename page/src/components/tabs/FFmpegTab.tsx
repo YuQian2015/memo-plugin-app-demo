@@ -15,7 +15,7 @@ interface FFmpegTabProps {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function FFmpegTab(_props: FFmpegTabProps) {
-  const [command, setCommand] = useState("");
+  const [command, setCommand] = useState(`ffmpeg -i "{input}" "{output}/test_.mp3"`);
   const [output, setOutput] = useState("");
   const [isExecuting, setIsExecuting] = useState(false);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
@@ -25,8 +25,8 @@ export function FFmpegTab(_props: FFmpegTabProps) {
 
   // 监听FFmpeg执行消息
   useEffect(() => {
-    const handleMessage = (event: any) => {
-      const { type, data } = event.data;
+    const handleMessage = (event: any, msg: any) => {
+      const { type, data } = msg.data;
 
       if (type === "ffmpeg:exec:message" && data.uuid === currentUuid) {
         setOutput(prev => prev + data.text + "\n");
