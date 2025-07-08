@@ -39,7 +39,7 @@ function IndexPage() {
         </TabsContent>
 
         <TabsContent value="storage" className="mt-4">
-          <StorageTab generatedText={generatedText} />
+          <StorageTab />
         </TabsContent>
 
         <TabsContent value="player" className="mt-4">

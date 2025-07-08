@@ -2,6 +2,7 @@ import './App.scss'
 import IndexPage from './pages/IndexPage'
 import { Route, Routes, HashRouter } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { Toaster } from "@/components/ui/toaster"
 import { initI18n } from './lib'
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   }, []);
 
   return <div className='App'>
+    <Toaster />
     <div className='pages'>
       {!i18nInitialized ? (
         <div className="h-full flex items-center justify-center">
