@@ -37,6 +37,7 @@
     "transcriptionData",
     "chat.getProviders",
     "chat.getModels",
+    "chat.getAllModels",
     "chat.chat",
     "closeWindow",
     "file.saveFile"

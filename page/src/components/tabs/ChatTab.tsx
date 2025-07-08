@@ -1,60 +1,41 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { ModelGuide } from "@/components/ModelGuide";
 
-interface ChatTabProps {
-  generatedText: string;
-  setGeneratedText: React.Dispatch<React.SetStateAction<string>>;
+interface ModelData {
+  value: string;
+  label: string;
+  description: string;
+  price: number;
+  currency: string;
+  uint: string;
+  maxContextToken: number;
+  maxOutputToken: number;
+  provider: string;
+  providerLabel: string;
 }
 
-export function ChatTab({ generatedText, setGeneratedText }: ChatTabProps) {
+export function ChatTab() {
   const [provider, setProvider] = useState("");
+  const [generatedText, setGeneratedText] = useState<string>("");
   const [model, setModel] = useState("");
-  const [chatProvider, setChatProvider] = useState<Array<{
-    value: string,
-    label: string,
-    disabled?: boolean
-  }>>([]);
-  const [llmModels, setLlmModels] = useState<Array<{
-    value: string,
-    label: string,
-    disabled?: boolean
-  }>>([]);
   const [prompt, setPrompt] = useState("");
 
+  // 从本地存储恢复模型设置
   useEffect(() => {
-    window.AIM.chat.getProviders().then((providers) => {
-      setChatProvider(providers)
-    });
-  }, []);
-
-  useEffect(() => {
-    if (provider) {
-      window.AIM.chat.getModels(provider as any).then((models) => {
-        if (models.length > 0) {
-          setLlmModels(models);
-        } else {
-          setLlmModels([]);
+    const loadModelSettings = async () => {
+      try {
+        const settings = await window.AIM.storage.getItem("modelSettings");
+        if (settings) {
+          setProvider(settings.provider || "");
+          setModel(settings.model || "");
         }
+      } catch (error) {
+        console.error("加载模型设置失败:", error);
       }
-      ).catch((err) => {
-        console.error(err);
-      });
-    }
-  }, [provider]);
-
-  useEffect(() => {
-    const m = llmModels.find((item) => item.value === model);
-    if (!m) {
-      setModel(llmModels[0]?.value || "");
-    }
-  }, [llmModels, model]);
+    };
+    loadModelSettings();
+  }, []);
 
   useEffect(() => {
     // @ts-ignore
@@ -79,43 +60,27 @@ export function ChatTab({ generatedText, setGeneratedText }: ChatTabProps) {
     };
   }, [setGeneratedText]);
 
+  // 处理模型选择确认
+  const handleConfirmModel = useCallback(async (selectedModelData: ModelData) => {
+    const newProvider = selectedModelData.provider;
+    const newModel = selectedModelData.value;
+
+    setProvider(newProvider);
+    setModel(newModel);
+    await window.AIM.storage.setItem("modelSettings", {
+      provider: newProvider,
+      model: newModel
+    });
+  }, []);
+
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <div className="text-sm text-muted-foreground">聊天服务</div>
-        <Select
-          value={provider}
-          onValueChange={(value) => {
-            setProvider(value);
-          }}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="选择AI服务" />
-          </SelectTrigger>
-          <SelectContent>
-            {chatProvider.map((m) => (
-              <SelectItem key={m.value} value={m.value} disabled={m.disabled}>
-                {m.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      <div className="space-y-2">
         <div className="text-sm text-muted-foreground">AI模型</div>
-        <Select value={model} onValueChange={setModel}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="选择AI模型" />
-          </SelectTrigger>
-          <SelectContent>
-            {llmModels.map((m) => (
-              <SelectItem key={m.value} value={m.value} disabled={m.disabled}>
-                {m.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+        <ModelGuide
+          model={model}
+          onModelChange={handleConfirmModel}
+        />
       </div>
 
       <div className="space-y-2">

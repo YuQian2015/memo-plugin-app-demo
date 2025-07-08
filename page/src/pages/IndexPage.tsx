@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   BasicInfoTab, 
@@ -9,7 +8,6 @@ import {
 } from "@/components/tabs";
 
 function IndexPage() {
-  const [generatedText, setGeneratedText] = useState<string>("");
   const queryParams = new URLSearchParams(window.location.search);
   const nId = queryParams.get('noteId') || undefined;
   const fId = queryParams.get('folderId') || undefined;
@@ -35,7 +33,7 @@ function IndexPage() {
         </TabsContent>
 
         <TabsContent value="chat" className="mt-4">
-          <ChatTab generatedText={generatedText} setGeneratedText={setGeneratedText} />
+          <ChatTab />
         </TabsContent>
 
         <TabsContent value="storage" className="mt-4">
