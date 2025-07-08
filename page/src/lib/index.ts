@@ -1,11 +1,18 @@
-export * from './time'
-import lang from "../../../main/i18n.json";
+export * from './time';
+
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import { ITranscriptFile, NoteModel } from "@aim-packages/iframe-ipc/dist/types";
+
+import lang from "../../../main/i18n.json";
 
 // 全局设置对象
 export const settings = {
   language: "zh",
+}
+
+export function getLanguage() {
+  return settings.language;
 }
 
 // 语言初始化函数
@@ -13,7 +20,7 @@ export async function initI18n(): Promise<void> {
   return new Promise((resolve, reject) => {
     (async () => {
       try {
-        const locales = await (window.AIM as any).locales.getLanguage();
+        const locales = await window.AIM.locales.getLanguage();
 
         settings.language = locales.currentLanguage;
         console.log(settings);
@@ -53,4 +60,47 @@ export async function initI18n(): Promise<void> {
       }
     })();
   });
+}
+
+export function modelToTranscriptFile(note: NoteModel) {
+  return {
+    ...note,
+    id: note.id,
+    transcodeAudio: !!note.transcodeAudio,
+    metadata: note.metadata ? JSON.parse(note.metadata) : null,
+    transcriptSettings: note.transcriptSettings
+      ? JSON.parse(note.transcriptSettings)
+      : null,
+    convertResult: JSON.parse(note.convertResult),
+    multiTranslateResult: note.multiTranslateResult
+      ? JSON.parse(note.multiTranslateResult)
+      : null,
+    translateResult: note.translateResult
+      ? JSON.parse(note.translateResult)
+      : null,
+    summary: note.summary ? JSON.parse(note.summary) : null,
+    canplayVideo: !!note.canplayVideo,
+    hasAudio: !!note.hasAudio,
+    hasVideo: !!note.hasVideo,
+  };
+}
+
+export function transcriptFileToModel(transcriptFile: ITranscriptFile) {
+  return {
+    ...transcriptFile,
+    transcriptSettings: transcriptFile.transcriptSettings
+      ? JSON.stringify(transcriptFile.transcriptSettings)
+      : undefined,
+    summary: transcriptFile.summary
+      ? JSON.stringify(transcriptFile.summary)
+      : undefined,
+    multiTranslateResult: transcriptFile.multiTranslateResult
+      ? JSON.stringify(transcriptFile.multiTranslateResult)
+      : undefined,
+    translateResult: transcriptFile.translateResult
+      ? JSON.stringify(transcriptFile.translateResult)
+      : undefined,
+    metadata: JSON.stringify(transcriptFile.metadata),
+    convertResult: JSON.stringify(transcriptFile.convertResult || []),
+  };
 }
