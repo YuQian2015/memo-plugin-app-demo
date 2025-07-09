@@ -57,14 +57,6 @@ import { IElectronAPI } from "@aim-packages/iframe-ipc/dist/types"
 
 //   chat: {
 //     chat: (data: ChatRequest) => Promise<string>;
-//     getProviders: () => Promise<{
-//       value: string;
-//       label: string;
-//     }[]>;
-//     getModels: (provider: "ZhipuAI" | "OpenAI") => Promise<{
-//       value: string;
-//       label: string;
-//     }[]>;
 //   };
 
 //   // Update
