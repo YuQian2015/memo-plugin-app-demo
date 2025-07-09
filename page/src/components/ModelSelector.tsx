@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Claude, DeepSeek, Gemini, Ollama, OpenAI, OpenRouter, SiliconCloud, XAI, Zhipu } from "@lobehub/icons";
 import {
   Select,
   SelectContent,
@@ -25,6 +26,19 @@ interface ModelSelectorProps {
   model: string;
   onModelChange: (selectedModel: ModelData) => void;
 }
+
+// 图标映射
+const iconMap = {
+  openai: <OpenAI color={OpenAI.colorGpt3} size={16} />,
+  claude: <Claude.Color size={16} />,
+  deepseek: <DeepSeek.Color size={16} />,
+  gemini: <Gemini.Color size={16} />,
+  zhipuai: <Zhipu.Color size={16} />,
+  ollama: <Ollama size={16} />,
+  xai: <XAI size={16} />,
+  openrouter: <OpenRouter size={16} />,
+  siliconcloud: <SiliconCloud.Color size={16} />,
+};
 
 export const ModelSelector: React.FC<ModelSelectorProps> = ({
   model,
@@ -75,7 +89,10 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
       <SelectContent className="max-h-[350px] overflow-y-auto">
         {allModels.map((m) => (
           <SelectItem key={m.value} value={m.value}>
-            {m.providerLabel} - {m.label}
+            <div className="flex items-center gap-2 min-w-0">
+              {iconMap[m.provider as keyof typeof iconMap]}
+              {m.label}
+            </div>
           </SelectItem>
         ))}
       </SelectContent>
