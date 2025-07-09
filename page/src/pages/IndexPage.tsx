@@ -5,7 +5,8 @@ import {
   ChatTab, 
   PlayerTab, 
   StorageTab,
-  FFmpegTab
+  FFmpegTab,
+  ScreenshotTab
 } from "@/components/tabs";
 
 function IndexPage() {
@@ -24,6 +25,7 @@ function IndexPage() {
           <TabsTrigger value="player">播放器</TabsTrigger>
           <TabsTrigger value="storage">存储</TabsTrigger>
           <TabsTrigger value="ffmpeg">FFmpeg</TabsTrigger>
+          <TabsTrigger value="screenshot">截图</TabsTrigger>
         </TabsList>
 
         <TabsContent value="basic" className="mt-4">
@@ -48,6 +50,10 @@ function IndexPage() {
 
         <TabsContent value="ffmpeg" className="mt-4">
           <FFmpegTab nId={nId} fId={fId} wId={wId} />
+        </TabsContent>
+
+        <TabsContent value="screenshot" className="mt-4">
+          <ScreenshotTab nId={nId} fId={fId} wId={wId} />
         </TabsContent>
       </Tabs>
     </div>

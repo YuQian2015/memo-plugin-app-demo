@@ -41,6 +41,7 @@
     "chat.chat",
     "closeWindow",
     "file.saveFile",
-    "common.execFFmpegCommand"
+    "common.execFFmpegCommand",
+    "video.screenshots"
   ]
 }
