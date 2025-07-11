@@ -76,7 +76,6 @@ export function FFmpegTab(_props: FFmpegTabProps) {
       // 调用真实的FFmpeg执行函数
       console.log(finalCommand, uuid);
 
-      // @ts-ignore
       await window.AIM.common.execFFmpegCommand(finalCommand, uuid);
 
       // 命令历史记录会在执行完成后通过消息事件更新
@@ -112,7 +111,6 @@ export function FFmpegTab(_props: FFmpegTabProps) {
                   {inputFile || "未选择文件"}
                 </div>
                 <Button size="sm" onClick={() => {
-                  // @ts-ignore
                   window.AIM.selectFile().then((files: string[]) => {
                     if (files && files.length > 0) {
                       setInputFile(files[0]);
@@ -131,7 +129,6 @@ export function FFmpegTab(_props: FFmpegTabProps) {
                   {outputFile || "未选择文件夹"}
                 </div>
                 <Button size="sm" onClick={async () => {
-                  // @ts-ignore
                   const folder: string[] = await window.AIM.openDialog("showOpenDialogSync", {
                     properties: ["openDirectory", "createDirectory"]
                   });
